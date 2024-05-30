@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.leave.mapper.ApplyMapper">
+    
+    <resultMap type="Apply" id="ApplyResult">
+        <result property="applyId"    column="apply_id"    />
+        <result property="applyName"    column="apply_name"    />
+        <result property="applyDate"    column="apply_date"    />
+        <result property="applyType"    column="apply_type"    />
+        <result property="reviewName"    column="review_name"    />
+        <result property="status"    column="status"    />
+        <result property="reason"    column="reason"    />
+    </resultMap>
+
+    <sql id="selectApplyVo">
+        select apply_id, apply_name, apply_date, apply_type, review_name, status, reason from apply
+    </sql>
+
+    <select id="selectApplyList" parameterType="Apply" resultMap="ApplyResult">
+        <include refid="selectApplyVo"/>
+        <where>  
+            <if test="applyName != null  and applyName != ''"> and apply_name like concat('%', #{applyName}, '%')</if>
+            <if test="applyDate != null "> and apply_date = #{applyDate}</if>
+            <if test="applyType != null  and applyType != ''"> and apply_type = #{applyType}</if>
+            <if test="reviewName != null  and reviewName != ''"> and review_name like concat('%', #{reviewName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+        </where>
+    </select>
+    
+    <select id="selectApplyByApplyId" parameterType="Long" resultMap="ApplyResult">
+        <include refid="selectApplyVo"/>
+        where apply_id = #{applyId}
+    </select>
+        
+    <insert id="insertApply" parameterType="Apply" useGeneratedKeys="true" keyProperty="applyId">
+        insert into apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applyName != null">apply_name,</if>
+            <if test="applyDate != null">apply_date,</if>
+            <if test="applyType != null">apply_type,</if>
+            <if test="reviewName != null">review_name,</if>
+            <if test="status != null">status,</if>
+            <if test="reason != null">reason,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applyName != null">#{applyName},</if>
+            <if test="applyDate != null">#{applyDate},</if>
+            <if test="applyType != null">#{applyType},</if>
+            <if test="reviewName != null">#{reviewName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="reason != null">#{reason},</if>
+         </trim>
+    </insert>
+
+    <update id="updateApply" parameterType="Apply">
+        update apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applyName != null">apply_name = #{applyName},</if>
+            <if test="applyDate != null">apply_date = #{applyDate},</if>
+            <if test="applyType != null">apply_type = #{applyType},</if>
+            <if test="reviewName != null">review_name = #{reviewName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="reason != null">reason = #{reason},</if>
+        </trim>
+        where apply_id = #{applyId}
+    </update>
+
+    <delete id="deleteApplyByApplyId" parameterType="Long">
+        delete from apply where apply_id = #{applyId}
+    </delete>
+
+    <delete id="deleteApplyByApplyIds" parameterType="String">
+        delete from apply where apply_id in 
+        <foreach item="applyId" collection="array" open="(" separator="," close=")">
+            #{applyId}
+        </foreach>
+    </delete>
+</mapper>
