@@ -58,6 +58,7 @@ public class Main {
             System.out.println("2. 修改商品");
             System.out.println("3. 查询商品");
             System.out.println("4. 删除商品");
+            System.out.println("5. 遍历已入库商品");
             System.out.println("0. 返回主菜单");
 
             // 获取用户选择
@@ -91,6 +92,10 @@ public class Main {
                 case 4:
                     // 处理删除商品操作
                     InventoryManagement.deleteCommodity(scanner);
+                    break;
+                case 5:
+                    // 处理遍历已入库商品操作
+                    InventoryManagement.AllCommodity(scanner);
                     break;
                 default:
                     System.out.println("无效的选择，请重新输入！");

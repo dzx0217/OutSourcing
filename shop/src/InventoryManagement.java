@@ -44,6 +44,8 @@ public class InventoryManagement {
 
     // 新增文具商品
     public static void addStationery(Scanner scanner) {
+        System.out.println("请输入文具id：");
+        String id = scanner.nextLine();
         System.out.println("请输入文具名称：");
         String name = scanner.nextLine();
         System.out.println("请输入单位：");
@@ -61,7 +63,7 @@ public class InventoryManagement {
 
 
         // 创建文具对象
-        Stationery stationery = new Stationery(name, unit, price, manufacturer);
+        Stationery stationery = new Stationery(id, name, unit, price, manufacturer);
 
         // 将新增文具写入CSV文件
         writeCommodityToCSV(stationery);
@@ -69,6 +71,8 @@ public class InventoryManagement {
 
     // 新增食品商品
     public static void addFood(Scanner scanner) {
+        System.out.println("请输入食品id：");
+        String id = scanner.nextLine();
         System.out.println("请输入食品名称：");
         String name = scanner.nextLine();
         System.out.println("请输入单位：");
@@ -104,7 +108,7 @@ public class InventoryManagement {
         scanner.nextLine(); // 消费掉换行符
 
         // 创建食品对象
-        Food food = new Food(name, unit, price, manufacturer, productionDate, shelfLife);
+        Food food = new Food(id, name, unit, price, manufacturer, productionDate, shelfLife);
 
         // 将新增食品写入CSV文件
         writeCommodityToCSV(food);
@@ -112,6 +116,8 @@ public class InventoryManagement {
 
     // 新增生活用品商品
     public static void addDailyNecessities(Scanner scanner) {
+        System.out.println("请输入生活用品id：");
+        String id = scanner.nextLine();
         System.out.println("请输入生活用品名称：");
         String name = scanner.nextLine();
         System.out.println("请输入单位：");
@@ -129,7 +135,7 @@ public class InventoryManagement {
         String manufacturer = scanner.nextLine();
 
         // 创建生活用品对象
-        DailyNecessities dailyNecessities = new DailyNecessities(name, unit, price, manufacturer);
+        DailyNecessities dailyNecessities = new DailyNecessities(id, name, unit, price, manufacturer);
 
         // 将新增生活用品写入CSV文件
         writeCommodityToCSV(dailyNecessities);
@@ -498,13 +504,14 @@ public class InventoryManagement {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(",");
                 if (parts.length >= 7 && parts[7].equals("食品")) {
+                    String id = parts[0];
                     String name = parts[1];
                     String unit = parts[2];
                     double price = Double.parseDouble(parts[3]);
                     String manufacturer = parts[4];
                     String productionDate = parts[5];
                     int shelfLife = Integer.parseInt(parts[6]);
-                    foodList.add(new Food(name, unit, price, manufacturer, productionDate, shelfLife));
+                    foodList.add(new Food(id, name, unit, price, manufacturer, productionDate, shelfLife));
                 }
             }
             fileScanner.close();
@@ -560,5 +567,27 @@ public class InventoryManagement {
             }
         }
         return dateStr;
+    }
+
+    public static void AllCommodity(Scanner scanner) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            br.readLine(); // 跳过表头
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                if (values.length >= 5) {
+                    String id = values[0];
+                    String name = values[1];
+                    String unit = values[2];
+                    double price = Double.parseDouble(values[3]);
+                    String manufacturer = values[4];
+
+                    Commodity commodity = new Commodity(id, name, unit, price, manufacturer);
+                    System.out.println("商品ID: " + id + ", 名称: " + name + ", 单位: " + unit + ", 价格: " + price + ", 厂家: " + manufacturer);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("读取CSV文件出错：" + e.getMessage());
+        }
     }
 }

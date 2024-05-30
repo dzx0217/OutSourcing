@@ -1,5 +1,3 @@
-import java.util.UUID;
-
 // 商品类
 class Commodity {
 
@@ -11,8 +9,8 @@ class Commodity {
     public String manufacturer;//厂家
 
     // 商品类构造函数
-    public Commodity(String name, String unit, double price, String manufacturer) {
-        this.id = UUID.randomUUID().toString();
+    public Commodity(String id, String name, String unit, double price, String manufacturer) {
+        this.id = id;
         this.name = name;
         this.unit = unit;
         this.price = price;

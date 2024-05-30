@@ -8,8 +8,8 @@ class Food extends Commodity {
     public int shelfLife; // 保质期
 
     // 食品类构造函数
-    public Food(String name, String unit, double price, String manufacturer, String productionDate, int shelfLife) {
-        super(name, unit, price, manufacturer);
+    public Food(String id, String name, String unit, double price, String manufacturer, String productionDate, int shelfLife) {
+        super(id, name, unit, price, manufacturer);
         this.productionDate = productionDate;
         this.shelfLife = shelfLife;
     }
