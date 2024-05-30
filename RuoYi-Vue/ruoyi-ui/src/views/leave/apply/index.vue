@@ -184,22 +184,22 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <!--        <el-form-item label="审核人" prop="reviewName">-->
-        <!--          <el-input v-model="form.reviewName" placeholder="请输入审核人" />-->
-        <!--        </el-form-item>-->
-<!--        <el-form-item label="状态" prop="status">-->
-<!--          <el-radio-group v-model="form.status">-->
-<!--            <el-radio-->
-<!--              v-for="dict in dict.type.apply_status"-->
-<!--              :key="dict.value"-->
-<!--              :label="dict.value"-->
-<!--            >{{ dict.label }}-->
-<!--            </el-radio>-->
-<!--          </el-radio-group>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="原因" prop="reason">-->
-<!--          <el-input v-model="form.reason" placeholder="请输入原因"/>-->
-<!--        </el-form-item>-->
+        <el-form-item label="审核人" prop="reviewName" v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+          <el-input v-model=" form.reviewName" placeholder="请输入审核人"/>
+        </el-form-item>
+        <el-form-item label="状态" prop="status"  v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.apply_status"
+              :key="dict.value"
+              :label="dict.value"
+            >{{ dict.label }}
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="原因" prop="reason"  v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+          <el-input v-model="form.reason" placeholder="请输入原因"/>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -219,6 +219,8 @@ export default {
   data() {
     return {
       user: {},
+      roleGroup: {},
+      postGroup: {},
       // 遮罩层
       loading: true,
       // 选中数组
@@ -262,6 +264,8 @@ export default {
     getUser() {
       getUserProfile().then(response => {
         this.user = response.data;
+        this.roleGroup = response.roleGroup;
+        this.postGroup = response.postGroup;
       });
     },
     /** 查询申请列表 */
@@ -323,6 +327,7 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改申请";
+        // this.form.reviewName = this.user.userName;
       });
     },
     /** 提交按钮 */

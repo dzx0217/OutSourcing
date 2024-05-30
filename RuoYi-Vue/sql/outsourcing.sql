@@ -11,7 +11,7 @@
  Target Server Version : 50744 (5.7.44-log)
  File Encoding         : 65001
 
- Date: 30/05/2024 16:58:37
+ Date: 30/05/2024 17:29:29
 */
 
 SET NAMES utf8mb4;
@@ -35,8 +35,8 @@ CREATE TABLE `apply`  (
 -- ----------------------------
 -- Records of apply
 -- ----------------------------
-INSERT INTO `apply` VALUES (1, 'test', '2024-05-30', '补休', 'test', '待审核', 'test');
-INSERT INTO `apply` VALUES (4, 'yuangong1', '2024-05-31', '公休', NULL, '待审核', NULL);
+INSERT INTO `apply` VALUES (1, 'test', '2024-05-30', '补休', 'test', '否定', '不允许');
+INSERT INTO `apply` VALUES (4, 'yuangong1', '2024-05-31', '公休', NULL, '同意', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -737,7 +737,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type`) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status`) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 173 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 175 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -815,6 +815,8 @@ INSERT INTO `sys_oper_log` VALUES (169, '申请', 2, 'com.ruoyi.web.controller.l
 INSERT INTO `sys_oper_log` VALUES (170, '申请', 2, 'com.ruoyi.web.controller.leave.ApplyController.edit()', 'PUT', 1, 'yuangong1', '1号班组', '/leave/apply', '127.0.0.1', '内网IP', '{\"applyDate\":\"2024-05-30\",\"applyId\":3,\"applyName\":\"yuangong1\",\"applyType\":\"加班\",\"params\":{}}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-30 16:49:22', 3);
 INSERT INTO `sys_oper_log` VALUES (171, '申请', 1, 'com.ruoyi.web.controller.leave.ApplyController.add()', 'POST', 1, 'yuangong1', '1号班组', '/leave/apply', '127.0.0.1', '内网IP', '{\"applyDate\":\"2024-05-31\",\"applyId\":4,\"applyName\":\"yuangong1\",\"applyType\":\"公休\",\"params\":{},\"status\":\"待审核\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-30 16:57:25', 3);
 INSERT INTO `sys_oper_log` VALUES (172, '申请', 3, 'com.ruoyi.web.controller.leave.ApplyController.remove()', 'DELETE', 1, 'yuangong1', '1号班组', '/leave/apply/3', '127.0.0.1', '内网IP', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-30 16:57:29', 3);
+INSERT INTO `sys_oper_log` VALUES (173, '申请', 2, 'com.ruoyi.web.controller.leave.ApplyController.edit()', 'PUT', 1, 'admin', '1号班组', '/leave/apply', '127.0.0.1', '内网IP', '{\"applyDate\":\"2024-05-30\",\"applyId\":1,\"applyName\":\"test\",\"applyType\":\"补休\",\"params\":{},\"reason\":\"不允许\",\"reviewName\":\"test\",\"status\":\"否定\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-30 17:11:41', 2);
+INSERT INTO `sys_oper_log` VALUES (174, '申请', 2, 'com.ruoyi.web.controller.leave.ApplyController.edit()', 'PUT', 1, 'admin', '1号班组', '/leave/apply', '127.0.0.1', '内网IP', '{\"applyDate\":\"2024-05-31\",\"applyId\":4,\"applyName\":\"yuangong1\",\"applyType\":\"公休\",\"params\":{},\"status\":\"同意\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-05-30 17:12:49', 2);
 
 -- ----------------------------
 -- Table structure for sys_post
