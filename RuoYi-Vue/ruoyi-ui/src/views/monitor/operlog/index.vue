@@ -10,15 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="系统模块" prop="title">
-        <el-input
-          v-model="queryParams.title"
-          placeholder="请输入系统模块"
-          clearable
-          style="width: 240px;"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="系统模块" prop="title">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.title"-->
+<!--          placeholder="请输入系统模块"-->
+<!--          clearable-->
+<!--          style="width: 240px;"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="操作人员" prop="operName">
         <el-input
           v-model="queryParams.operName"
@@ -28,21 +28,21 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="类型" prop="businessType">
-        <el-select
-          v-model="queryParams.businessType"
-          placeholder="操作类型"
-          clearable
-          style="width: 240px"
-        >
-          <el-option
-            v-for="dict in dict.type.sys_oper_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="类型" prop="businessType">-->
+<!--        <el-select-->
+<!--          v-model="queryParams.businessType"-->
+<!--          placeholder="操作类型"-->
+<!--          clearable-->
+<!--          style="width: 240px"-->
+<!--        >-->
+<!--          <el-option-->
+<!--            v-for="dict in dict.type.sys_oper_type"-->
+<!--            :key="dict.value"-->
+<!--            :label="dict.label"-->
+<!--            :value="dict.value"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
       <el-form-item label="状态" prop="status">
         <el-select
           v-model="queryParams.status"

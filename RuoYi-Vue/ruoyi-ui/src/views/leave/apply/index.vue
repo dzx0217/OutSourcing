@@ -138,6 +138,7 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['leave:apply:edit']"
+            :disabled="isDisabled(scope.row)"
           >修改
           </el-button>
           <el-button
@@ -184,10 +185,12 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="审核人" prop="reviewName" v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+        <el-form-item label="审核人" prop="reviewName"
+                      v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
           <el-input v-model=" form.reviewName" placeholder="请输入审核人"/>
         </el-form-item>
-        <el-form-item label="状态" prop="status"  v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+        <el-form-item label="状态" prop="status"
+                      v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
           <el-radio-group v-model="form.status">
             <el-radio
               v-for="dict in dict.type.apply_status"
@@ -197,7 +200,8 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="原因" prop="reason"  v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
+        <el-form-item label="原因" prop="reason"
+                      v-if="roleGroup === '领导' || roleGroup === '超级管理员' || roleGroup === '班长'">
           <el-input v-model="form.reason" placeholder="请输入原因"/>
         </el-form-item>
       </el-form>
@@ -261,6 +265,10 @@ export default {
     this.getUser();
   },
   methods: {
+    isDisabled(row) {
+      // 禁用条件：如果角色组为“员工”并且名字不是自己的，或者状态为“同意”
+      return (this.roleGroup === '员工' && row.applyName !== this.user.userName) || (this.roleGroup === '员工' && row.status === '同意') || (row.status === '同意' && this.roleGroup === '班长');
+    },
     getUser() {
       getUserProfile().then(response => {
         this.user = response.data;
@@ -327,7 +335,7 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改申请";
-        // this.form.reviewName = this.user.userName;
+        // if(this.roleGroup == "领导")
       });
     },
     /** 提交按钮 */
