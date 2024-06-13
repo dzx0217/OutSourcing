@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.professors.mapper.PeopleMapper">
+    
+    <resultMap type="People" id="PeopleResult">
+        <result property="id"    column="id"    />
+        <result property="profileurl"    column="profileurl"    />
+        <result property="name"    column="name"    />
+        <result property="email"    column="email"    />
+        <result property="field"    column="field"    />
+        <result property="school"    column="school"    />
+        <result property="department"    column="department"    />
+        <result property="location"    column="location"    />
+    </resultMap>
+
+    <sql id="selectPeopleVo">
+        select id, profileurl, name, email, field, school, department, location from people
+    </sql>
+
+    <select id="selectPeopleList" parameterType="People" resultMap="PeopleResult">
+        <include refid="selectPeopleVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="field != null  and field != ''"> and field like concat('%', #{field}, '%')</if>
+            <if test="school != null  and school != ''"> and school like concat('%', #{school}, '%')</if>
+            <if test="department != null  and department != ''"> and department like concat('%', #{department}, '%')</if>
+            <if test="location != null  and location != ''"> and location like concat('%', #{location}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectPeopleById" parameterType="Long" resultMap="PeopleResult">
+        <include refid="selectPeopleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPeople" parameterType="People" useGeneratedKeys="true" keyProperty="id">
+        insert into people
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="profileurl != null">profileurl,</if>
+            <if test="name != null">name,</if>
+            <if test="email != null">email,</if>
+            <if test="field != null">field,</if>
+            <if test="school != null">school,</if>
+            <if test="department != null">department,</if>
+            <if test="location != null">location,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="profileurl != null">#{profileurl},</if>
+            <if test="name != null">#{name},</if>
+            <if test="email != null">#{email},</if>
+            <if test="field != null">#{field},</if>
+            <if test="school != null">#{school},</if>
+            <if test="department != null">#{department},</if>
+            <if test="location != null">#{location},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePeople" parameterType="People">
+        update people
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="profileurl != null">profileurl = #{profileurl},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="field != null">field = #{field},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="department != null">department = #{department},</if>
+            <if test="location != null">location = #{location},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePeopleById" parameterType="Long">
+        delete from people where id = #{id}
+    </delete>
+
+    <delete id="deletePeopleByIds" parameterType="String">
+        delete from people where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
